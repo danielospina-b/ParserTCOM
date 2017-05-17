@@ -66,7 +66,7 @@ public class RegExpParser implements ParserTreeI {
         token = lexer.nextToken();
         AstTree tree = pExp();
         System.out.println("POST tree = pExp() en parse");
-        if (token.getType() != EOF) throw new RegParsingException("ERROR: Columna " + token.getCharPositionInLine() + ", Se esperaba carácter de final de línea pero se encontró el carácter: " + token.getText());
+        if (token.getType() != EOF) throw new RegParsingException("ERROR: Columna " + token.getCharPositionInLine() + ", Se esperaba carácter final de línea pero se encontró el carácter: " + token.getText());
         System.out.println("TREE FINISHED");
         return tree;
     }
@@ -137,18 +137,25 @@ public class RegExpParser implements ParserTreeI {
             return parent;
         }
         else if (token.getType() == SYMBOL){
-            AstTree parent;
             AstTree tree = pPalabra();
+            AstTree last = null;
+            AstTree star;
             if (token.getType() == STAR) {
-                System.out.println("Estrella!!!!!!!!!!");
-                parent = new AstTree(token);
-                parent.addChild(tree);
+                if (tree.getChildCount() > 1) {
+                    last = (AstTree) tree.getChild(tree.getChildCount() - 1);
+                    tree.removeChild(last);
+                    star = new AstTree(token);
+                    star.addChild(last);
+                    tree.addChild(star);
+                }
+                else {
+                    star = new AstTree(token);
+                    star.addChild(tree);
+                    tree = star;
+                }
                 token = lexer.nextToken();
             }
-            else {
-                parent = tree;
-            }
-            return parent;
+            return tree;
         }
         else {
             System.out.println("Token: " + token.getText());
@@ -168,7 +175,9 @@ public class RegExpParser implements ParserTreeI {
             token = lexer.nextToken();
             if (token.getType() != SYMBOL) isSymbol = false;
         }
-        
+        if (tree.getChildCount() == 1) {
+            tree = (AstTree) tree.getChild(0);
+        }
         return tree;
     }
     
