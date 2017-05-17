@@ -1,0 +1,148 @@
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "\" | "(" ")" | "(" exp ")" | palabra [ "*" ] | exp;
+
+expbasica = expminima {"+" expminima};
+
+exp = expbasica ["*"] ["+" ("("expbasica")" | expbasica)];
+
+(acepta doble **)
+
+
+
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "\" | "(" ")" | "(" exp ")" | palabra [ "*" ] | exp;
+
+expbasica = expminima {"+" expminima};
+
+exp = expbasica ["+" ("("expbasica")" | expbasica)];
+
+(arregla doble**)
+
+
+
+
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "\" | "(" ")" | "(" exp ")" | palabra [ "*" ] | exp;
+
+exp = expminima ["+" ("("expminima")" | expminima)];
+
+(posible minimizacion)
+
+
+
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "\" | "(" ")" | "(" exp ")" | palabra [ "*" ] | exp;
+
+exp = expminima ["+" expminima];
+
+(posible minimizacion de la posible minimizacion) (no permite ejemplo del profesor)
+
+
+
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "\" | "(" ")" | "(" exp ")" | palabra [ "*" ] | exp;
+
+exp = expminima ["+" expminima | expminima];
+
+(problemas con \a , \(a+b))
+
+
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "(" ")" | "(" exp ")" | palabra [ "*" ] | exp;
+
+expbasica = ("\" ["+" expminima]) | expminima
+
+exp = expbasica ["+" expbasica | expbasica];
+
+No es ll1 por exp en expminima
+
+
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "(" ")" | "(" exp ")" | palabra [ "*" ];
+
+expbasica = ("\" ["+" expminima]) | expminima
+
+exp = expbasica {"+" expbasica | expbasica};
+
+(problemas con \a , \(a+b))
+
+
+
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "(" ")" | "(" exp ")" | palabra [ "*" ];
+
+expbasica = ("\" "+" expbasica) | expminima | "\"         #Parsing solo con nexttoken si \
+
+exp = expbasica {"+" expbasica | expbasica};
+
+Correo del profesor, correcciones:
+
+
+char = "a".."z";
+
+palabra = char {char};
+
+expminima = "\" | "(" exp ")" | palabra [ "*" ];
+
+exp = expminima ["+" expminima | expminima];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

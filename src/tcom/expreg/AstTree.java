@@ -1,5 +1,7 @@
 package tcom.expreg;
 
+import java.util.ArrayList;
+import org.antlr.runtime.Token;
 import tcom.ui.AstI;
 
 /**
@@ -7,20 +9,30 @@ import tcom.ui.AstI;
  * @author 2110242
  */
 public class AstTree implements AstI {
+    
+    private ArrayList<AstI> childs = new ArrayList<>();
+    private Token token;
 
+    public AstTree(Token token) {
+        this.token = token;
+    }
+    
     @Override
     public int getChildCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return childs.size();
     }
 
     @Override
     public AstI getChild(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return childs.get(i);
+    }
+    
+    public void addChild(AstTree tree) {
+        childs.add(tree);
     }
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return token.getText();
     }
-    
 }
