@@ -110,9 +110,16 @@ expminima = "\" | "(" exp ")" | palabra [ "*" ];
 
 exp = expminima {"+" expminima | expminima};
 
+(no se contempla (ab)*  )
 
 
+char = "a".."z";
 
+palabra = char {char};
+
+expminima = "\" | "(" exp ")" [ "*" ] | palabra [ "*" ];
+
+exp = expminima {"+" expminima | expminima};
 
 
 
