@@ -108,7 +108,7 @@ palabra = char {char};
 
 expminima = "\" | "(" exp ")" | palabra [ "*" ];
 
-exp = expminima ["+" expminima | expminima];
+exp = expminima {"+" expminima | expminima};
 
 
 

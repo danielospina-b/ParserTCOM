@@ -35,4 +35,12 @@ public class AstTree implements AstI {
     public String getName() {
         return token.getText();
     }
+
+    public void removeChild(AstTree child) {
+        childs.remove(child);
+    }
+    
+    public void insertChild(AstTree child, int position) {
+        childs.add(position, child);
+    }
 }

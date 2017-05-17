@@ -71,41 +71,32 @@ public class RegExpParser implements ParserTreeI {
     }
 
     public AstTree pExp() throws RegParsingException {
-        System.out.println("tcom.expreg.RegExpParser.pExp()");
+        AstTree first = pExpMinima();
         AstTree res = null;
-        AstTree first = null;
-        AstTree or = null;
-        AstTree brother = null;
-        boolean added = false;
-        boolean created = false;
-        while (token.getType() == SYMBOL || token.getType() == OR) {
-            if (token.getType() == SYMBOL) {
-                System.out.println("Call por SYMBOL");
-                first = pExpMinima();
-
-            }
+        AstTree brothers = new AstTree(new CommonToken(2, "."));
+        brothers.addChild(first);
+        while (token.getType() == LPAR || token.getType() == LAMBDA || token.getType() == OR) {
             if (token.getType() == OR) {
-                if (!created) {
-                    or = new AstTree(token);
-                    created = true;
-                }
+                if (res == null) res = new AstTree(token);
                 token = lexer.nextToken();
-                if (!added) {
-                    or.addChild(first);
-                    added = true;
-                }
-                System.out.println("Call por OR");
-                or.addChild(pExpMinima());
+                System.out.println("Res.addchild(pexpminima) con token actual = " + token.getText());
+                AstTree value = pExpMinima();
+                System.out.println("name de value: " + value.getChild(0).getName());
+                res.addChild(value);
             }
-            System.out.println("While Token: " + token.getText());
+            if (token.getType() == LPAR) {
+                brothers.addChild(pExpMinima());
+            }
         }
-        if (or == null) {
-            System.out.println("Return first");
+        if (res == null) {
+            if (brothers.getChildCount() > 1) {
+                return brothers;
+            }
             return first;
         }
         else {
-            System.out.println("return or");
-            return or;
+            res.insertChild(first, 0);
+            return res;
         }
     }
     
