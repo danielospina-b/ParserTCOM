@@ -113,9 +113,9 @@ exp = expminima {"+" expminima | expminima};
 (no se contempla (ab)*  )
 
 
-char = "a".."z";
+symbol = "a".."z" | "0".."1";
 
-palabra = char {char};
+palabra = symbol {symbol};
 
 expminima = "\" | "(" exp ")" [ "*" ] | palabra [ "*" ];
 

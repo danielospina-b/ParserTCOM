@@ -1,8 +1,10 @@
+//PROGRAMADOR: DANIEL OSPINA - 2110242
+
 package tcom.expreg;
 
 /**
- *
- * @author 2110242
+ * Clase RegParsingException que es lanzada en casos de Error de Parsing
+ * @author Daniel Ospina - 2110242
  */
 class RegParsingException extends Exception {
 

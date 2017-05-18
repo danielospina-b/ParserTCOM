@@ -1,3 +1,5 @@
+// PROGRAMADOR: DANIEL OSPINA - 2110242
+
 package tcom.expreg;
 
 import static tcom.ui.RegLexer.LAMBDA;
@@ -20,8 +22,21 @@ import tcom.ui.VisorException;
 import tcom.ui.VisorExpr;
 
 /**
- *
- * @author 2110242
+ * Clase RegExpParser especificada para el proyecto que implementa ParserTreeI
+ * 
+ * BNF utilizada: 
+ * 
+ *      symbol = "a".."z" | "0".."1";
+ *      
+ *      palabra = symbol {symbol};
+ *      
+ *      expminima = "\" | "(" exp ")" [ "*" ] | palabra [ "*" ];
+ * 
+ *      exp = expminima {"+" expminima | expminima};
+ * 
+ * 
+ * 
+ * @author Daniel Ospina - 2110242
  */
 public class RegExpParser implements ParserTreeI {
     
@@ -61,7 +76,12 @@ public class RegExpParser implements ParserTreeI {
         }
         return tree;
     }
-
+    
+    /**
+     * Método parse encargado de hacer el primer nextToken, invocar el primer método del BNF y comprobar que el EOF
+     * @return Árbol de Expresión Regular
+     * @throws RegParsingException Error de parsing con los detalles de columna, carácteres esperados y encontrados
+     */
     public AstI parse() throws RegParsingException{
         token = lexer.nextToken();
         AstTree tree = pExp();
@@ -70,7 +90,12 @@ public class RegExpParser implements ParserTreeI {
         System.out.println("TREE FINISHED");
         return tree;
     }
-
+    
+    /**
+     * BNF: exp ::= expminima {"+" expminima | expminima};
+     * @return Árbol de Expresión Regular
+     * @throws RegParsingException Error de parsing con los detalles de columna, carácteres esperados y encontrados
+     */
     public AstTree pExp() throws RegParsingException {
         System.out.println("tcom.expreg.RegExpParser.pExp()");
         AstTree first = pExpMinima();
@@ -108,6 +133,11 @@ public class RegExpParser implements ParserTreeI {
         }
     }
     
+    /**
+     * BNF: expminima ::= "\" | "(" exp ")" [ "*" ] | palabra [ "*" ];
+     * @return Árbol de Expresión Regular
+     * @throws RegParsingException Error de parsing con los detalles de columna, carácteres esperados y encontrados
+     */
     public AstTree pExpMinima() throws RegParsingException {
         System.out.println("tcom.expreg.RegExpParser.pExpMinima()");
         if (token.getType() == LAMBDA) {
@@ -164,6 +194,11 @@ public class RegExpParser implements ParserTreeI {
         }
     }
     
+    /**
+     * BNF: palabra ::= symbol {symbol};
+     * @return Árbol de Expresión Regular
+     * @throws RegParsingException Error de parsing con los detalles de columna, carácteres esperados y encontrados
+     */
     public AstTree pPalabra() throws RegParsingException {
         System.out.println("tcom.expreg.RegExpParser.pPalabra()");
         AstTree tree = new AstTree(new CommonToken(2, "."));
@@ -181,6 +216,11 @@ public class RegExpParser implements ParserTreeI {
         return tree;
     }
     
+    /**
+     * BNF: symbol ::= "a".."z" | "0".."1";
+     * @return Árbol de Expresión Regular
+     * @throws RegParsingException Error de parsing con los detalles de columna, carácteres esperados y encontrados
+     */
     public AstTree pSymbol() throws RegParsingException {
         System.out.println("tcom.expreg.RegExpParser.pSymbol()");
         return new AstTree(token);
